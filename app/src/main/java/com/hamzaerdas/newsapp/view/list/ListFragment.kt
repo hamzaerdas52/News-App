@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.hamzaerdas.newsapp.adapter.NewsAdapter
 import com.hamzaerdas.newsapp.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -14,6 +16,7 @@ class ListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: ListViewModel
+    private val adapter = NewsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +29,32 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModelInitialize()
+        recyclerViewInitialize()
+        getAll()
+        observeData()
+    }
+
+    private fun viewModelInitialize() {
         viewModel = ViewModelProvider(this)[ListViewModel::class.java]
+    }
+
+    private fun recyclerViewInitialize(){
+        binding.newsRecyclerView.layoutManager = LinearLayoutManager(this@ListFragment.context)
+        binding.newsRecyclerView.adapter = adapter
+    }
+
+    private fun getAll(){
+        viewModel.getAllNews()
+    }
+
+    private fun observeData(){
+
+        viewModel.allNews.observe(viewLifecycleOwner){
+            it?.let {
+                adapter.updateList(it)
+            }
+        }
     }
 
     override fun onDestroyView() {
