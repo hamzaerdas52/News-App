@@ -34,7 +34,7 @@ class ListViewModel : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<NewsResponse>() {
                     override fun onSuccess(t: NewsResponse) {
-                        allNews.value = t.news.sortedBy { it.publishDate }
+                        allNews.value = t.news.sortedByDescending { it.publishDate }
                         loadingData.value = false
                         loadingError.value = false
                     }
@@ -48,5 +48,7 @@ class ListViewModel : ViewModel() {
         )
 
     }
+
+
 
 }

@@ -1,5 +1,9 @@
 package com.hamzaerdas.newsapp.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class News(
     val id: Int,
     val title: String,
@@ -9,4 +13,4 @@ data class News(
     val body: List<Body>,
     val videoUrl: String,
     val webUrl: String
-)
+) : Parcelable

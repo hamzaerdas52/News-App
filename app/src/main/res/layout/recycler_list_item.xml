@@ -30,18 +30,34 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="8dp" />
 
-        <TextView
-            android:id="@+id/categoryText"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
-            android:text="Category"
-            android:textColor="@color/category_text"
-            android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/titleText"
-            tools:layout_editor_absoluteX="8dp" />
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:id="@+id/categoryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Category"
+                android:textColor="@color/category_text"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -21,6 +21,10 @@
         tools:layout="@layout/fragment_detail" >
         <action
             android:id="@+id/action_detailFragment_to_listFragment"
-            app:destination="@id/listFragment" />
+            app:destination="@id/listFragment"
+            app:enterAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="news"
+            app:argType="com.hamzaerdas.newsapp.entity.News[]" />
     </fragment>
 </navigation>
