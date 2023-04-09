@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hamzaerdas.newsapp.adapter.NewsAdapter
 import com.hamzaerdas.newsapp.databinding.FragmentListBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null

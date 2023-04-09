@@ -45,7 +45,7 @@ class DetailFragment : Fragment() {
             news.forEach { _it ->
                 binding.detailCategory?.let { it.text = _it.category}
                 binding.detailTitle?.let { it.text = _it.title }
-                binding.detailTime?.let { it.text = _it.publishDate.substring(11, 16) }
+                binding.detailTime?.let { it.text = _it.publishDate.substring(0, 16) }
                 videoUrl = Uri.parse(_it.videoUrl)
                 adapter.updateList(_it.body)
             }

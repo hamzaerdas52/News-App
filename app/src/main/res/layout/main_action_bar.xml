@@ -17,7 +17,7 @@
             android:id="@+id/main_action_string"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
+            android:text="@string/detail_text"
             android:layout_marginStart="20dp"
             android:textSize="22sp"
             android:textStyle="bold"
