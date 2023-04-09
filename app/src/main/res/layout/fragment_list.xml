@@ -9,8 +9,16 @@
     android:background="@color/background">
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/include_action_bar"
         layout="@layout/main_action_bar" />
+
+    <include
+        android:id="@+id/include_loading_view"
+        layout="@layout/loading_item"/>
+
+    <include
+        android:id="@+id/include_error_view"
+        layout="@layout/error_item"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/newsRecyclerView"
@@ -21,6 +29,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintTop_toBottomOf="@+id/include_action_bar"
         tools:listitem="@layout/recycler_list_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

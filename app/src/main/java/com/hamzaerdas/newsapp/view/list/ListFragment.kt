@@ -41,20 +41,44 @@ class ListFragment : Fragment() {
         viewModel = ViewModelProvider(this)[ListViewModel::class.java]
     }
 
-    private fun recyclerViewInitialize(){
+    private fun recyclerViewInitialize() {
         binding.newsRecyclerView.layoutManager = LinearLayoutManager(this@ListFragment.context)
         binding.newsRecyclerView.adapter = adapter
     }
 
-    private fun getAll(){
+    private fun getAll() {
         viewModel.getAllNews()
     }
 
-    private fun observeData(){
+    private fun observeData() {
 
-        viewModel.allNews.observe(viewLifecycleOwner){
+        viewModel.allNews.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.updateList(it)
+            }
+        }
+
+        viewModel.loadingData.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    binding.newsRecyclerView.visibility = View.GONE
+                } else {
+                    binding.newsRecyclerView.visibility = View.VISIBLE
+                    binding.includeLoadingView.loadingView.visibility = View.GONE
+                }
+            }
+        }
+
+        viewModel.loadingError.observe(viewLifecycleOwner){
+            it?.let {
+                if(it){
+                    binding.newsRecyclerView.visibility = View.GONE
+                    binding.includeLoadingView.loadingView.visibility = View.GONE
+                } else {
+                    binding.newsRecyclerView.visibility = View.VISIBLE
+                    binding.includeLoadingView.loadingView.visibility = View.GONE
+                    binding.includeErrorView.errorView.visibility = View.GONE
+                }
             }
         }
     }
