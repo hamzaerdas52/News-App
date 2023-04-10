@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hamzaerdas.newsapp.R
 import com.hamzaerdas.newsapp.adapter.NewsAdapter
 import com.hamzaerdas.newsapp.databinding.FragmentListBinding
+import com.hamzaerdas.newsapp.entity.News
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListFragment : Fragment() {
+class ListFragment : Fragment(){
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
@@ -20,21 +22,23 @@ class ListFragment : Fragment() {
     private lateinit var viewModel: ListViewModel
     private val adapter = NewsAdapter()
 
+    private lateinit var newsList: List<News>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         viewModelInitialize()
         recyclerViewInitialize()
         getAll()
         observeData()
+        refresh()
+        menuItemSelect()
+
+        return binding.root
     }
 
     private fun viewModelInitialize() {
@@ -51,10 +55,10 @@ class ListFragment : Fragment() {
     }
 
     private fun observeData() {
-
         viewModel.allNews.observe(viewLifecycleOwner) {
             it?.let {
-                adapter.updateList(it)
+                newsList = it
+                adapter.updateList(newsList)
             }
         }
 
@@ -62,6 +66,7 @@ class ListFragment : Fragment() {
             it?.let {
                 if (it) {
                     binding.newsRecyclerView.visibility = View.GONE
+                    binding.includeErrorView.errorView.visibility = View.GONE
                 } else {
                     binding.newsRecyclerView.visibility = View.VISIBLE
                     binding.includeLoadingView.loadingView.visibility = View.GONE
@@ -74,6 +79,7 @@ class ListFragment : Fragment() {
                 if(it){
                     binding.newsRecyclerView.visibility = View.GONE
                     binding.includeLoadingView.loadingView.visibility = View.GONE
+                    binding.includeErrorView.errorView.visibility = View.VISIBLE
                 } else {
                     binding.newsRecyclerView.visibility = View.VISIBLE
                     binding.includeLoadingView.loadingView.visibility = View.GONE
@@ -81,6 +87,56 @@ class ListFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun refresh(){
+        binding.listSwipeRefresh.setOnRefreshListener {
+            binding.includeLoadingView.loadingView.visibility = View.VISIBLE
+            binding.newsRecyclerView.visibility = View.GONE
+            getAll()
+            binding.listSwipeRefresh.isRefreshing = false
+        }
+    }
+
+    private fun menuItemSelect() {
+        binding.includeActionBar.actionBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.guncel_item -> {
+                    categoryChance("Güncel")
+                    true
+                }
+                R.id.ekonomi_item -> {
+                    categoryChance("Ekonomi")
+                    true
+                }
+                R.id.spor_item -> {
+                    categoryChance("Spor")
+                    true
+                }
+                R.id.politika_item -> {
+                    categoryChance("Politika")
+                    true
+                }
+                R.id.ucuncu_sayfa_item -> {
+                    categoryChance("3. Sayfa")
+                    true
+                }
+                R.id.magazin_item -> {
+                    categoryChance("Magazin")
+                    true
+                }
+                R.id.yerel_item -> {
+                    categoryChance("Yerel")
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun categoryChance(category: String){
+        val filterList = newsList.filter { it.category == category }
+        adapter.updateList(filterList)
     }
 
     override fun onDestroyView() {

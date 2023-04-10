@@ -3,6 +3,8 @@ package com.hamzaerdas.newsapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.hamzaerdas.newsapp.databinding.ActivityMainBinding
+import com.hamzaerdas.newsapp.databinding.FragmentListBinding
+import com.hamzaerdas.newsapp.view.list.ListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

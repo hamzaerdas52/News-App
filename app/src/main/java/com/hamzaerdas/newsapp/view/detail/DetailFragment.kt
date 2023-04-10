@@ -40,7 +40,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun getNavArguments() {
-        arguments.let {
+        arguments.let { it ->
             val news = DetailFragmentArgs.fromBundle(it!!).news
             news.forEach { _it ->
                 binding.detailCategory?.let { it.text = _it.category}
@@ -72,7 +72,11 @@ class DetailFragment : Fragment() {
         videoView.setMediaController(mediaController)
         videoView.setVideoURI(videoUrl)
         videoView.requestFocus()
+        videoView.start()
         videoView.pause()
+
+        val currentPosition = videoView.currentPosition
+        videoView.seekTo(currentPosition)
     }
 
     private fun goBack(){

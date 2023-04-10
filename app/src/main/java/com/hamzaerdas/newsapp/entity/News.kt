@@ -8,7 +8,7 @@ data class News(
     val id: Int,
     val title: String,
     val category: String,
-    val publishDate: String,
+    var publishDate: String,
     val imageUrl: String,
     val body: List<Body>,
     val videoUrl: String,

@@ -31,15 +31,14 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsHolder>() {
         recyclerViewDownAnimation(holder)
 
         val news = newsList[holder.adapterPosition]
-        holder.binding.titleText.text = news.title
-        holder.binding.categoryText.text = news.category
-        holder.binding.timeText.text = news.publishDate.substring(11,16)
-        holder.binding.listNewsImage.dowloadImage(news.imageUrl, makePlaceHolder(holder.itemView.context))
 
         holder.itemView.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToDetailFragment(arrayOf(news))
             Navigation.findNavController(it).navigate(action)
         }
+
+        holder.binding.news = news
+        holder.binding.listNewsImage.dowloadImage(news.imageUrl, makePlaceHolder(holder.itemView.context))
     }
 
     override fun getItemCount(): Int {

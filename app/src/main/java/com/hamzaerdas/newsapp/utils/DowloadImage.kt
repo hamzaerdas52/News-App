@@ -11,7 +11,7 @@ fun ImageView.dowloadImage(url: String?, placeholder: CircularProgressDrawable) 
     Picasso.get()
         .load(url)
         .placeholder(placeholder)
-        .error(R.drawable.ic_launcher_foreground)
+        .error(R.drawable.error_icon)
         .into(this);
 }
 

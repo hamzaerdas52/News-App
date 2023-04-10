@@ -45,12 +45,7 @@ class ListViewModel @Inject constructor(private val repository: NewsRepository) 
                         Log.e("Hata", "Veri Gelmedi", e)
                         loadingError.value = true
                     }
-
                 })
         )
-
     }
-
-
-
 }
