@@ -17,16 +17,13 @@ import javax.inject.Inject
 class ListViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
 
     val allNews = MutableLiveData<List<News>>()
+    val newsByCategory = MutableLiveData<List<News>>()
     val loadingData = MutableLiveData<Boolean>()
     val loadingError = MutableLiveData<Boolean>()
 
     private val disposable = CompositeDisposable()
 
-    fun getAllNews(){
-        getAll()
-    }
-
-    private fun getAll() {
+    fun getAll() {
 
         loadingData.value = true
 
@@ -48,4 +45,28 @@ class ListViewModel @Inject constructor(private val repository: NewsRepository) 
                 })
         )
     }
+
+    fun getToCategory(category: String) {
+
+        loadingData.value = true
+
+        disposable.add(
+            repository.getToCategory(category)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<NewsResponse>() {
+                    override fun onSuccess(t: NewsResponse) {
+                        newsByCategory.value = t.news.sortedByDescending { it.publishDate }
+                        loadingData.value = false
+                        loadingError.value = false
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Log.e("Hata", "Veri Gelmedi", e)
+                        loadingError.value = true
+                    }
+                })
+        )
+    }
+
 }

@@ -14,15 +14,13 @@ import com.hamzaerdas.newsapp.entity.News
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListFragment : Fragment(){
+class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: ListViewModel
     private val adapter = NewsAdapter()
-
-    private lateinit var newsList: List<News>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,14 +49,24 @@ class ListFragment : Fragment(){
     }
 
     private fun getAll() {
-        viewModel.getAllNews()
+        viewModel.getAll()
+    }
+
+    private fun menuSelect(category: String) {
+        viewModel.getToCategory(category)
+        observeData()
     }
 
     private fun observeData() {
         viewModel.allNews.observe(viewLifecycleOwner) {
             it?.let {
-                newsList = it
-                adapter.updateList(newsList)
+                adapter.updateList(it)
+            }
+        }
+
+        viewModel.newsByCategory.observe(viewLifecycleOwner) {
+            it?.let {
+                adapter.updateList(it)
             }
         }
 
@@ -74,9 +82,9 @@ class ListFragment : Fragment(){
             }
         }
 
-        viewModel.loadingError.observe(viewLifecycleOwner){
+        viewModel.loadingError.observe(viewLifecycleOwner) {
             it?.let {
-                if(it){
+                if (it) {
                     binding.newsRecyclerView.visibility = View.GONE
                     binding.includeLoadingView.loadingView.visibility = View.GONE
                     binding.includeErrorView.errorView.visibility = View.VISIBLE
@@ -89,7 +97,7 @@ class ListFragment : Fragment(){
         }
     }
 
-    private fun refresh(){
+    private fun refresh() {
         binding.listSwipeRefresh.setOnRefreshListener {
             binding.includeLoadingView.loadingView.visibility = View.VISIBLE
             binding.newsRecyclerView.visibility = View.GONE
@@ -102,31 +110,31 @@ class ListFragment : Fragment(){
         binding.includeActionBar.actionBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.guncel_item -> {
-                    categoryChance("Güncel")
+                    menuSelect("Güncel")
                     true
                 }
                 R.id.ekonomi_item -> {
-                    categoryChance("Ekonomi")
+                    menuSelect("Ekonomi")
                     true
                 }
                 R.id.spor_item -> {
-                    categoryChance("Spor")
+                    menuSelect("Spor")
                     true
                 }
                 R.id.politika_item -> {
-                    categoryChance("Politika")
+                    menuSelect("Politika")
                     true
                 }
                 R.id.ucuncu_sayfa_item -> {
-                    categoryChance("3. Sayfa")
+                    menuSelect("3. Sayfa")
                     true
                 }
                 R.id.magazin_item -> {
-                    categoryChance("Magazin")
+                    menuSelect("Magazin")
                     true
                 }
                 R.id.yerel_item -> {
-                    categoryChance("Yerel")
+                    menuSelect("Yerel")
                     true
                 }
                 else -> false
@@ -134,10 +142,6 @@ class ListFragment : Fragment(){
         }
     }
 
-    private fun categoryChance(category: String){
-        val filterList = newsList.filter { it.category == category }
-        adapter.updateList(filterList)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
