@@ -22,6 +22,8 @@ class ListFragment : Fragment() {
     private lateinit var viewModel: ListViewModel
     private val adapter = NewsAdapter()
 
+    private lateinit var newsList: List<News>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,21 +54,11 @@ class ListFragment : Fragment() {
         viewModel.getAll()
     }
 
-    private fun menuSelect(category: String) {
-        viewModel.getToCategory(category)
-        observeData()
-    }
-
     private fun observeData() {
         viewModel.allNews.observe(viewLifecycleOwner) {
             it?.let {
-                adapter.updateList(it)
-            }
-        }
-
-        viewModel.newsByCategory.observe(viewLifecycleOwner) {
-            it?.let {
-                adapter.updateList(it)
+                newsList = it
+                adapter.updateList(newsList)
             }
         }
 
@@ -110,36 +102,41 @@ class ListFragment : Fragment() {
         binding.includeActionBar.actionBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.guncel_item -> {
-                    menuSelect("Güncel")
+                    categoryFilter("Güncel")
                     true
                 }
                 R.id.ekonomi_item -> {
-                    menuSelect("Ekonomi")
+                    categoryFilter("Ekonomi")
                     true
                 }
                 R.id.spor_item -> {
-                    menuSelect("Spor")
+                    categoryFilter("Spor")
                     true
                 }
                 R.id.politika_item -> {
-                    menuSelect("Politika")
+                    categoryFilter("Politika")
                     true
                 }
                 R.id.ucuncu_sayfa_item -> {
-                    menuSelect("3. Sayfa")
+                    categoryFilter("3. Sayfa")
                     true
                 }
                 R.id.magazin_item -> {
-                    menuSelect("Magazin")
+                    categoryFilter("Magazin")
                     true
                 }
                 R.id.yerel_item -> {
-                    menuSelect("Yerel")
+                    categoryFilter("Yerel")
                     true
                 }
                 else -> false
             }
         }
+    }
+
+    private fun categoryFilter(category: String) {
+        val filterList = newsList.filter { it.category == category }.apply { newsList.sortedByDescending { it.publishDate } }
+        adapter.updateList(filterList)
     }
 
 
