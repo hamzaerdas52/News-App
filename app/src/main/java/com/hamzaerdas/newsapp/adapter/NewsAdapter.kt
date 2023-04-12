@@ -1,20 +1,15 @@
 package com.hamzaerdas.newsapp.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.hamzaerdas.newsapp.databinding.RecyclerListItemBinding
 import com.hamzaerdas.newsapp.entity.News
 import com.hamzaerdas.newsapp.utils.dowloadImage
 import com.hamzaerdas.newsapp.utils.makePlaceHolder
 import com.hamzaerdas.newsapp.utils.recyclerViewDownAnimation
-import com.hamzaerdas.newsapp.view.list.ListFragmentDirections
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.concurrent.TimeUnit
+import com.hamzaerdas.newsapp.view.detail.DetailActivity
 import javax.inject.Inject
 
 class NewsAdapter @Inject constructor(): RecyclerView.Adapter<NewsAdapter.NewsHolder>() {
@@ -34,8 +29,9 @@ class NewsAdapter @Inject constructor(): RecyclerView.Adapter<NewsAdapter.NewsHo
         val news = newsList[holder.adapterPosition]
 
         holder.itemView.setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToDetailFragment(arrayOf(news))
-            Navigation.findNavController(it).navigate(action)
+            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
+            intent.putParcelableArrayListExtra("news", arrayListOf(news))
+            holder.itemView.context.startActivity(intent)
         }
 
         holder.binding.news = news

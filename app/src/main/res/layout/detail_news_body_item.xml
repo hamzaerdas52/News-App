@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:text="P"
-        android:textColor="@color/black"
-        android:textSize="16sp"
+        style="@style/Detail_Body_Text"
         android:layout_marginTop="4dp"/>
 
     <TextView
@@ -21,9 +20,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/bodyText"
         android:text="H3"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@style/Title"
         android:layout_marginTop="6dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

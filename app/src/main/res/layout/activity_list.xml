@@ -5,19 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".view.list.ListFragment">
-
-    <include
-        android:id="@+id/include_action_bar"
-        layout="@layout/main_action_bar" />
+    style="@style/App_Bg"
+    tools:context=".view.list.ListActivity">
 
     <TextView
         android:id="@+id/text_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/include_action_bar" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/include_loading_view"

@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/App_Bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".view.detail.DetailFragment">
+    tools:context=".view.detail.DetailActivity">
 
     <include
         android:id="@+id/include"
@@ -16,10 +16,9 @@
 
     <ScrollView
         android:id="@+id/scrollView"
+        style="@style/Detail_ScrollView_Bg"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="14dp"
-        android:background="@drawable/detail_scrollview_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,13 +49,11 @@
 
                 <TextView
                     android:id="@+id/detailTitle"
+                    style="@style/Detail_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Title"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:text="Title" />
 
                 <TextView
                     android:id="@+id/detailTime"

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.NewsApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.NewsApp" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/background</item>
         <item name="colorPrimaryVariant">@color/background</item>
@@ -17,6 +17,37 @@
     <style name="MyTheme_ActionBar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
         <!-- color used by navigation icon and overflow icon -->
         <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <style name="App_Bg">
+        <item name="android:background">@color/background</item>
+    </style>
+
+    <style name="List_Item_Bg">
+        <item name="android:backgroundTint">#E1E1E1</item>
+        <item name="android:background">@drawable/list_item_bg</item>
+    </style>
+
+    <style name="Detail_ScrollView_Bg">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:background">@drawable/detail_scrollview_bg</item>
+    </style>
+
+    <style name="Detail_Title">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Title">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Detail_Body_Text">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>
