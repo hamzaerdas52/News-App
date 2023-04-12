@@ -12,13 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hamzaerdas.newsapp.adapter.DetailNewsBodyAdapter
 import com.hamzaerdas.newsapp.databinding.FragmentDetailBinding
 import com.hamzaerdas.newsapp.utils.detailFragmentAnimation
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var videoUrl: Uri
-    private val adapter = DetailNewsBodyAdapter()
+
+    @Inject
+    lateinit var bodyAdapter: DetailNewsBodyAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,17 +31,21 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
+
+        bodyRecyclerViewInitialize()
+        detailFragmentAnimation(binding)
+        getNavArguments()
+        videoOperations()
+        goBack()
+
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        detailFragmentAnimation(binding)
-        getNavArguments()
-        bodyRecyclerViewInitialize()
-        videoOperations()
-        goBack()
+    private fun bodyRecyclerViewInitialize(){
+        binding.detailNewsBodyRecyclerView?.let {
+            it.layoutManager = LinearLayoutManager(this@DetailFragment.context)
+            it.adapter = bodyAdapter
+        }
     }
 
     private fun getNavArguments() {
@@ -47,15 +56,8 @@ class DetailFragment : Fragment() {
                 binding.detailTitle?.let { it.text = _it.title }
                 binding.detailTime?.let { it.text = _it.publishDate.substring(0, 16) }
                 videoUrl = Uri.parse(_it.videoUrl)
-                adapter.updateList(_it.body)
+                bodyAdapter.updateList(_it.body)
             }
-        }
-    }
-
-    private fun bodyRecyclerViewInitialize(){
-        binding.detailNewsBodyRecyclerView?.let {
-            it.layoutManager = LinearLayoutManager(this@DetailFragment.context)
-            it.adapter = adapter
         }
     }
 
@@ -72,7 +74,6 @@ class DetailFragment : Fragment() {
         videoView.setMediaController(mediaController)
         videoView.setVideoURI(videoUrl)
         videoView.requestFocus()
-        videoView.start()
         videoView.pause()
 
         val currentPosition = videoView.currentPosition

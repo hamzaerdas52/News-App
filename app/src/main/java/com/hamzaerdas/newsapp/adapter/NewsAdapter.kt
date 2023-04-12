@@ -15,8 +15,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsHolder>() {
+class NewsAdapter @Inject constructor(): RecyclerView.Adapter<NewsAdapter.NewsHolder>() {
 
     private val newsList = ArrayList<News>()
 
@@ -50,28 +51,4 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsHolder>() {
         newsList.addAll(newNewsList)
         notifyDataSetChanged()
     }
-
-    /*
-    private fun time(newsTime: String){
-
-        val newsTimeSub = newsTime.substring(0,16)
-        println(newsTimeSub)
-
-        val pattern = "yyyy-MM-dd HH:mm"
-
-        val formatter = DateTimeFormatter.ofPattern(pattern)
-        val nowTime = LocalDateTime.now().format(formatter)
-        println(nowTime)
-
-        val d1 = SimpleDateFormat(pattern).parse(nowTime)
-        val d2 = SimpleDateFormat(pattern).parse(newsTimeSub)
-        val timeDifference = d1.time - d2.time
-
-        val minuteDifference = TimeUnit.MILLISECONDS.toMinutes(timeDifference) % 60
-        println(minuteDifference)
-
-
-    }
-     */
-
 }

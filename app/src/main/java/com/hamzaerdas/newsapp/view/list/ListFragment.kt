@@ -1,17 +1,18 @@
 package com.hamzaerdas.newsapp.view.list
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hamzaerdas.newsapp.R
 import com.hamzaerdas.newsapp.adapter.NewsAdapter
 import com.hamzaerdas.newsapp.databinding.FragmentListBinding
 import com.hamzaerdas.newsapp.entity.News
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListFragment : Fragment() {
@@ -19,8 +20,10 @@ class ListFragment : Fragment() {
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: ListViewModel
-    private val adapter = NewsAdapter()
+    private val viewModel: ListViewModel by viewModels()
+
+    @Inject
+    lateinit var adapter: NewsAdapter
 
     private lateinit var newsList: List<News>
 
@@ -31,18 +34,13 @@ class ListFragment : Fragment() {
     ): View {
         _binding = FragmentListBinding.inflate(inflater, container, false)
 
-        viewModelInitialize()
-        recyclerViewInitialize()
         getAll()
+        recyclerViewInitialize()
         observeData()
         refresh()
         menuItemSelect()
 
         return binding.root
-    }
-
-    private fun viewModelInitialize() {
-        viewModel = ViewModelProvider(this)[ListViewModel::class.java]
     }
 
     private fun recyclerViewInitialize() {

@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hamzaerdas.newsapp.databinding.DetailNewsBodyItemBinding
 import com.hamzaerdas.newsapp.entity.Body
+import javax.inject.Inject
 
-class DetailNewsBodyAdapter : RecyclerView.Adapter<DetailNewsBodyAdapter.DetailBodyHolder>() {
+class DetailNewsBodyAdapter @Inject constructor(): RecyclerView.Adapter<DetailNewsBodyAdapter.DetailBodyHolder>() {
 
     private val bodyList = ArrayList<Body>()
 
