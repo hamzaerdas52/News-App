@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hamzaerdas.newsapp.R
 import com.hamzaerdas.newsapp.adapter.NewsAdapter
 import com.hamzaerdas.newsapp.databinding.FragmentListBinding
+import com.hamzaerdas.newsapp.entity.News
+import com.hamzaerdas.newsapp.utils.Search
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,6 +24,8 @@ class ListFragment : Fragment() {
     private val viewModel: ListViewModel by viewModels()
     @Inject
     lateinit var adapter: NewsAdapter
+    private lateinit var newsList: List<News>
+    @Inject lateinit var search: Search
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +33,7 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentListBinding.inflate(inflater, container, false)
-        binding.includeActionBar.mainActionString.text = "Manşet Haberleri"
+        binding.includeToolBar.mainActionString.text = "Manşet Haberleri"
 
         recyclerViewInitialize()
         observeData()
@@ -49,7 +52,9 @@ class ListFragment : Fragment() {
         viewModel.getAll()
         viewModel.allNews.observe(viewLifecycleOwner) {
             it?.let {
-                adapter.updateList(it)
+                newsList = it
+                adapter.updateList(newsList)
+                search()
             }
         }
 
@@ -57,9 +62,11 @@ class ListFragment : Fragment() {
             it?.let {
                 if (it) {
                     binding.newsRecyclerView.visibility = View.GONE
+                    binding.includeLoadingView.loadingView.visibility = View.GONE
                     binding.includeErrorView.errorView.visibility = View.GONE
                 } else {
                     binding.newsRecyclerView.visibility = View.VISIBLE
+                    binding.includeLoadingView.loadingView.visibility = View.VISIBLE
                     binding.includeLoadingView.loadingView.visibility = View.GONE
                 }
             }
@@ -70,8 +77,10 @@ class ListFragment : Fragment() {
                 if(it){
                     binding.newsRecyclerView.visibility = View.GONE
                     binding.includeLoadingView.loadingView.visibility = View.GONE
+                    binding.includeLoadingView.loadingView.visibility = View.GONE
                 } else {
                     binding.newsRecyclerView.visibility = View.VISIBLE
+                    binding.includeLoadingView.loadingView.visibility = View.VISIBLE
                     binding.includeLoadingView.loadingView.visibility = View.GONE
                     binding.includeErrorView.errorView.visibility = View.GONE
                 }
@@ -95,6 +104,13 @@ class ListFragment : Fragment() {
             binding.listSwipeRefresh.isRefreshing = false
         }
     }
+
+    private fun search(){
+        val searchView = binding.includeSearchView.searchView
+        search.searchData(searchView, newsList, adapter)
+        search.clearFocus(binding)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

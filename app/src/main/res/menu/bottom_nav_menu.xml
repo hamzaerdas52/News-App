@@ -4,15 +4,15 @@
     <item
         android:id="@+id/listFragment"
         android:title="@string/home_text"
-        android:icon="@drawable/home_icon"/>
+        android:icon="@drawable/home_icon" />
 
     <item
         android:id="@+id/categoryListFragment"
-        android:title="@string/categories_text"
+        android:title="@string/category_text"
         android:icon="@drawable/search_icon"/>
 
     <item
-        android:id="@+id/collectionsFragment"
+        android:id="@+id/savedFragment"
         android:title="@string/collections_text"
         android:icon="@drawable/bookmark_"/>
 

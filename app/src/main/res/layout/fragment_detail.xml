@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/detail_action_bar"
+        layout="@layout/detail_tool_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

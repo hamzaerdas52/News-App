@@ -6,7 +6,6 @@
     <string name="category_text">Kategoriler</string>
     <string name="collections_text">Kaydedilenler</string>
     <string name="list_item_image_des">List item image</string>
-    <string name="categories_text">Kategoriler</string>
     <string name="category_list_icon_des">Category list icon</string>
     <string name="actionbar_text">ActionBar</string>
 </resources>

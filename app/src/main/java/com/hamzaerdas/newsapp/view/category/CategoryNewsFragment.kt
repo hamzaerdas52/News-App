@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hamzaerdas.newsapp.R
 import com.hamzaerdas.newsapp.adapter.NewsAdapter
 import com.hamzaerdas.newsapp.databinding.FragmentCategoryNewsBinding
+import com.hamzaerdas.newsapp.entity.News
+import com.hamzaerdas.newsapp.utils.Search
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,7 +28,9 @@ class CategoryNewsFragment : Fragment() {
 
     @Inject
     lateinit var adapter: NewsAdapter
+    @Inject lateinit var search: Search
     private lateinit var category: String
+    private lateinit var newsList: List<News>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +50,6 @@ class CategoryNewsFragment : Fragment() {
     private fun getNavArguments() {
         arguments.let {
             category = CategoryNewsFragmentArgs.fromBundle(it!!).category
-            println(category)
         }
         binding.actionBar.goBackIcon.visibility = View.VISIBLE
         binding.actionBar.mainActionString.text = "$category"
@@ -60,7 +63,23 @@ class CategoryNewsFragment : Fragment() {
     private fun observeData() {
         viewModel.getToCategory(category)
         viewModel.newsByCategory.observe(viewLifecycleOwner) {
-            adapter.updateList(it)
+            newsList = it
+            adapter.updateList(newsList)
+            search()
+        }
+
+        viewModel.loadingData.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    binding.includeLoadingView.loadingView.visibility = View.VISIBLE
+                    binding.includeSearchView.searchView.visibility = View.GONE
+                    binding.categoryNewsRecyclerView.visibility = View.GONE
+                } else {
+                    binding.includeLoadingView.loadingView.visibility = View.GONE
+                    binding.includeSearchView.searchView.visibility = View.VISIBLE
+                    binding.categoryNewsRecyclerView.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -73,6 +92,12 @@ class CategoryNewsFragment : Fragment() {
 
     private fun goBack(){
         binding.actionBar.goBackIcon.setOnClickListener { findNavController().popBackStack() }
+    }
+
+    private fun search(){
+        val searchView = binding.includeSearchView.searchView
+        search.searchData(searchView, newsList, adapter)
+        search.clearFocus(binding)
     }
 
     override fun onDestroyView() {

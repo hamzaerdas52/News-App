@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppBg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/AppBg"
     tools:context=".view.list.ListFragment">
 
     <include
-        android:id="@+id/include_action_bar"
-        layout="@layout/main_action_bar" />
+        android:id="@+id/include_tool_bar"
+        layout="@layout/main_tool_bar" />
 
     <include
         android:id="@+id/include_loading_view"
-        layout="@layout/loading_item"/>
+        layout="@layout/loading_item" />
 
     <include
         android:id="@+id/include_error_view"
-        layout="@layout/error_item"/>
+        layout="@layout/error_item" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/list_swipe_refresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/include_loading_view"
-        app:layout_constraintEnd_toEndOf="@+id/include_loading_view"
-        app:layout_constraintStart_toStartOf="@+id/include_loading_view"
-        app:layout_constraintTop_toBottomOf="@+id/include_action_bar">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/include_tool_bar">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/newsRecyclerView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/news_list_item" />
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/include_search_view"
+                layout="@layout/search_view_layout"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/newsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include_search_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:listitem="@layout/news_list_item"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
