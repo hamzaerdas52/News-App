@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:text="P"
-        style="@style/Detail_Body_Text"
+        style="@style/DetailBodyText"
         android:layout_marginTop="4dp"/>
 
     <TextView

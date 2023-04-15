@@ -1,50 +1,50 @@
 package com.hamzaerdas.newsapp.adapter
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.hamzaerdas.newsapp.databinding.RecyclerListItemBinding
+import com.hamzaerdas.newsapp.databinding.NewsListItemBinding
 import com.hamzaerdas.newsapp.entity.News
 import com.hamzaerdas.newsapp.utils.dowloadImage
 import com.hamzaerdas.newsapp.utils.makePlaceHolder
 import com.hamzaerdas.newsapp.utils.recyclerViewDownAnimation
-import com.hamzaerdas.newsapp.view.detail.DetailActivity
+import com.hamzaerdas.newsapp.view.list.ListFragmentDirections
 import javax.inject.Inject
 
 class NewsAdapter @Inject constructor(): RecyclerView.Adapter<NewsAdapter.NewsHolder>() {
 
-    private val newsList = ArrayList<News>()
+    private val list = ArrayList<News>()
+    var onItemClick: ((News) -> Unit)? = null
 
-    class NewsHolder(val binding: RecyclerListItemBinding): RecyclerView.ViewHolder(binding.root)
+    class NewsHolder(val binding: NewsListItemBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsHolder {
-        val binding = RecyclerListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = NewsListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NewsHolder(binding)
     }
 
     override fun onBindViewHolder(holder: NewsHolder, position: Int) {
         recyclerViewDownAnimation(holder)
 
-        val news = newsList[holder.adapterPosition]
-
-        holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-            intent.putParcelableArrayListExtra("news", arrayListOf(news))
-            holder.itemView.context.startActivity(intent)
-        }
-
+        val news = list[holder.adapterPosition]
         holder.binding.news = news
         holder.binding.listNewsImage.dowloadImage(news.imageUrl, makePlaceHolder(holder.itemView.context))
+
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(news)
+        }
     }
 
     override fun getItemCount(): Int {
-        return newsList.size
+        return list.size
     }
 
-    fun updateList(newNewsList: List<News>){
-        newsList.clear()
-        newsList.addAll(newNewsList)
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateList(newList: List<News>){
+        list.clear()
+        list.addAll(newList)
         notifyDataSetChanged()
     }
 }

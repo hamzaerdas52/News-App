@@ -1,4 +1,4 @@
-package com.hamzaerdas.newsapp.view.list
+package com.hamzaerdas.newsapp.view.category
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -14,25 +14,28 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
-class ListViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
+class CategoryViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
+    var categoryList = arrayListOf<String>(
+        "Politika", "Ekonomi", "Spor", "Güncel", "Yerel", "Magazin", "3. Sayfa"
+    )
 
-    val allNews = MutableLiveData<List<News>>()
+    val newsByCategory = MutableLiveData<List<News>>()
     val loadingData = MutableLiveData<Boolean>()
     val loadingError = MutableLiveData<Boolean>()
 
     private val disposable = CompositeDisposable()
 
-    fun getAll() {
+    fun getToCategory(category: String) {
 
         loadingData.value = true
 
         disposable.add(
-            repository.getAll()
+            repository.getToCategory(category)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<NewsResponse>() {
                     override fun onSuccess(t: NewsResponse) {
-                        allNews.value = t.news.sortedByDescending { it.publishDate }
+                        newsByCategory.value = t.news.sortedByDescending { it.publishDate }
                         loadingData.value = false
                         loadingError.value = false
                     }
@@ -44,6 +47,5 @@ class ListViewModel @Inject constructor(private val repository: NewsRepository) 
 
                 })
         )
-
     }
 }

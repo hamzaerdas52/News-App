@@ -2,4 +2,11 @@
     <string name="app_name">NewsApp</string>
     <string name="detail_text">Manşet Haberleri</string>
     <string name="error_message">Hata. Lütfen sayfayı yenileyiniz veya internet bağlantınızı kontrol ediniz.</string>
+    <string name="home_text">Anasayfa</string>
+    <string name="category_text">Kategoriler</string>
+    <string name="collections_text">Kaydedilenler</string>
+    <string name="list_item_image_des">List item image</string>
+    <string name="categories_text">Kategoriler</string>
+    <string name="category_list_icon_des">Category list icon</string>
+    <string name="actionbar_text">ActionBar</string>
 </resources>
