@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hamzaerdas.newsapp.entity.News
 import com.hamzaerdas.newsapp.entity.NewsResponse
-import com.hamzaerdas.newsapp.repository.NewsRepository
+import com.hamzaerdas.newsapp.repository.NewsAPIRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoryViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
+class CategoryViewModel @Inject constructor(private val repository: NewsAPIRepository) : ViewModel() {
     var categoryList = arrayListOf<String>(
         "Politika", "Ekonomi", "Spor", "Güncel", "Yerel", "Magazin", "3. Sayfa"
     )

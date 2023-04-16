@@ -22,6 +22,9 @@
         <argument
             android:name="news"
             app:argType="com.hamzaerdas.newsapp.entity.News[]" />
+        <action
+            android:id="@+id/action_detailFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryListFragment"
@@ -52,5 +55,14 @@
         <action
             android:id="@+id/action_savedFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.hamzaerdas.newsapp.view.detail.WebViewFragment"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view" >
+        <argument
+            android:name="url"
+            app:argType="string" />
     </fragment>
 </navigation>

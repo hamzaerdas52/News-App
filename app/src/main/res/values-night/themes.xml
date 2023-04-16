@@ -56,4 +56,9 @@
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="WebButtonBg">
+        <item name="android:background">@drawable/list_item_bg</item>
+        <item name="android:backgroundTint">#0E0F12</item>
+    </style>
 </resources>

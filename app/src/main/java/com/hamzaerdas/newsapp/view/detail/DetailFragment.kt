@@ -1,6 +1,5 @@
 package com.hamzaerdas.newsapp.view.detail
 
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.MediaController
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hamzaerdas.newsapp.R
 import com.hamzaerdas.newsapp.adapter.DetailNewsBodyAdapter
-import com.hamzaerdas.newsapp.adapter.NewsAdapter
 import com.hamzaerdas.newsapp.databinding.FragmentDetailBinding
 import com.hamzaerdas.newsapp.entity.News
 import com.hamzaerdas.newsapp.view.saved.DbViewModel
@@ -33,6 +32,7 @@ class DetailFragment : Fragment() {
     private var id: Int? = 0
     private lateinit var savedButton: ImageView
     private var isItAdded: Boolean = false
+    private var webUrl:String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +51,7 @@ class DetailFragment : Fragment() {
         bodyRecyclerViewInitialize()
         videoOperations()
         goBack()
+        webButtonClick()
 
     }
 
@@ -65,8 +66,8 @@ class DetailFragment : Fragment() {
                 binding.detailTitle?.let { it.text = _it.title }
                 binding.detailTime?.let { it.text = _it.publishDate!!.substring(0, 16) }
                 videoUrl = Uri.parse(_it.videoUrl)
+                webUrl = _it.webUrl
                 adapter.updateList(_it.body!!)
-                println(_it.body?.isEmpty())
             }
         }
     }
@@ -123,5 +124,12 @@ class DetailFragment : Fragment() {
 
     private fun goBack(){
         binding.includeDetailToolBar?.goBackIcon?.setOnClickListener { findNavController().popBackStack() }
+    }
+
+    private fun webButtonClick(){
+        binding.webButton?.setOnClickListener {
+            val action = DetailFragmentDirections.actionDetailFragmentToWebViewFragment(webUrl!!)
+            Navigation.findNavController(requireView()).navigate(action)
+        }
     }
 }
