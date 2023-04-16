@@ -36,7 +36,7 @@ class Search @Inject constructor() {
         p0?.let {
             val filteredList = ArrayList<News>()
             for (item in newsList) {
-                if (item.title.lowercase(Locale.ROOT).contains(p0)) {
+                if (item.title!!.lowercase(Locale.ROOT).contains(p0)) {
                     filteredList.add(item)
                 }
             }

@@ -14,6 +14,6 @@
     <item
         android:id="@+id/savedFragment"
         android:title="@string/collections_text"
-        android:icon="@drawable/bookmark_"/>
+        android:icon="@drawable/bookmark_icon"/>
 
 </menu>

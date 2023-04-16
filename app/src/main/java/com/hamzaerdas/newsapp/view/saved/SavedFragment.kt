@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.createBitmap
 import androidx.fragment.app.viewModels
-import com.hamzaerdas.newsapp.R
-import com.hamzaerdas.newsapp.databinding.FragmentListBinding
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.hamzaerdas.newsapp.adapter.NewsAdapter
 import com.hamzaerdas.newsapp.databinding.FragmentSavedBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -19,7 +19,8 @@ class SavedFragment : Fragment() {
     private var _binding: FragmentSavedBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: SavedViewModel by viewModels()
+    private val viewModel: DbViewModel by viewModels()
+    @Inject lateinit var adapter: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,13 +29,38 @@ class SavedFragment : Fragment() {
         _binding = FragmentSavedBinding.inflate(inflater, container, false)
         binding.includeToolbar.mainActionString.text = "Kaydedilen Haberler"
 
-        return binding.root
+        recyclerViewInitialize()
+        observeData()
+        adapterItemClick()
 
+        return binding.root
+    }
+
+    private fun recyclerViewInitialize() {
+        binding.savedNewsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.savedNewsRecyclerView.adapter = adapter
+    }
+
+    private fun observeData(){
+        viewModel.getAll()
+        viewModel.savedNewsList.observe(viewLifecycleOwner) {
+            it?.let {
+                adapter.updateList(it)
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    private fun adapterItemClick(){
+        adapter.onItemClick = {
+            val action = SavedFragmentDirections.actionSavedFragmentToDetailFragment(arrayOf(it))
+            Navigation.findNavController(requireView()).navigate(action)
+        }
     }
 
 }
