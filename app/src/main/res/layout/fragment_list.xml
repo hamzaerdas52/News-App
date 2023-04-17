@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/include_tool_bar"
-        layout="@layout/main_tool_bar" />
+        layout="@layout/home_tool_bar" />
 
     <include
         android:id="@+id/include_loading_view"

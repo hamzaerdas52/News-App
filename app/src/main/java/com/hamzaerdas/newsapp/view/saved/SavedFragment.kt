@@ -27,7 +27,6 @@ class SavedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSavedBinding.inflate(inflater, container, false)
-        binding.includeToolbar.mainActionString.text = "Kaydedilen Haberler"
 
         recyclerViewInitialize()
         observeData()

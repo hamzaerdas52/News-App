@@ -33,7 +33,6 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentListBinding.inflate(inflater, container, false)
-        binding.includeToolBar.mainActionString.text = "Manşet Haberleri"
 
         recyclerViewInitialize()
         observeData()

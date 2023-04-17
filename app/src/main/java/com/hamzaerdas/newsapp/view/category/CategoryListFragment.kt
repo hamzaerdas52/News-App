@@ -28,7 +28,6 @@ class CategoryListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCategoryListBinding.inflate(inflater, container, false)
-        binding.actionBar.mainActionString.text = "Kategoriler"
 
         categoryList()
 
